@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/nombreMunicipio"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="Municipio"
+        android:fontFamily="sans-serif"
+        android:textSize="24sp"
+        android:textColor="@android:color/background_dark" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/nombreMunicipio"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_next"
+        android:id="@+id/next"
+        android:layout_alignTop="@+id/nombreMunicipio"
+        android:layout_alignBottom="@+id/nombreMunicipio"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/nombreMunicipio"
+        android:background="@android:color/darker_gray"></View>
+</RelativeLayout>

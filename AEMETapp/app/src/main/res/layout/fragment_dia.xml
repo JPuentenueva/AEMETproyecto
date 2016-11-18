@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textViewFecha"
+                android:text="Fecha"
+                android:textColor="@android:color/darker_gray"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentTop="true"/>
+            <ImageView
+                android:id="@+id/imageViewEstadoPrevio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/textViewProbabilidad"
+                android:text="Precipit:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/imageViewEstadoPrevio"
+                android:layout_centerVertical="true"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:layout_marginLeft="18dp"
+                />
+
+            <TextView
+                android:id="@+id/textViewProb_precip"
+                android:text="%"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@+id/textViewProbabilidad"
+                android:layout_centerVertical="true"
+                android:textColor="@android:color/black"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_thermometermax"
+                android:layout_alignLeft="@+id/textViewProb_precip"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginStart="60dp"
+                android:id="@+id/imageViewThermax" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_thermometermin"
+                android:layout_below="@+id/imageViewThermax"
+                android:layout_alignLeft="@+id/imageViewThermax"
+                android:layout_marginTop="22dp"
+                android:id="@+id/imageViewThermin" />
+            <TextView
+                android:id="@+id/textViewThermax"
+                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/imageViewThermax"
+                android:layout_alignTop="@+id/imageViewThermax"
+                android:layout_alignBottom="@+id/imageViewThermax"
+                android:layout_marginLeft="5dp"
+                android:text="º"
+                android:textColor="@android:color/black"
+                />
+            <TextView
+                android:id="@+id/textViewThermin"
+                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/imageViewThermin"
+                android:layout_alignTop="@+id/imageViewThermin"
+                android:layout_alignBottom="@+id/imageViewThermin"
+                android:layout_marginLeft="5dp"
+                android:text="º"
+                android:textColor="@android:color/black"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_next"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/imageView3" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
