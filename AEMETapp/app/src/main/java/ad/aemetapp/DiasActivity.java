@@ -58,6 +58,7 @@ public class DiasActivity extends AppCompatActivity implements IOnClickDia {
         } else { // móvil
             Intent i = new Intent(this, DetalleDiaScrollingActivity.class);
             i.putExtra("dia",Parcels.wrap(dia));
+            i.putExtra("municipio",datos_municipio.getNombre());
             startActivity(i);
         }
     }

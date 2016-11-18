@@ -42,7 +42,11 @@ public class DetalleDiaScrollingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_dia);
+
+        diaActual = Parcels.unwrap(getIntent().getExtras().getParcelable("dia"));
+        String municipio = getIntent().getExtras().getString("municipio");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(municipio);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -66,8 +70,6 @@ public class DetalleDiaScrollingActivity extends AppCompatActivity {
         cotaDeNieveDia = (TextView) findViewById(R.id.text_view_cotaNieve_dia);
         cotaDeNieveNoche = (TextView) findViewById(R.id.text_view_cotaNieve_noche);
         cardViewCotaNieve = (CardView) findViewById(R.id.cardViewCotaDeNieve);
-
-        diaActual = Parcels.unwrap(getIntent().getExtras().getParcelable("dia"));
 
         actualizaVistaDetalle(diaActual);
     }
