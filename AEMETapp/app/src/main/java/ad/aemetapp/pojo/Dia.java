@@ -20,13 +20,13 @@ public class Dia {
     @Attribute
     Date fecha;
 
-    @ElementMap(entry="prob_precipitacion", key="periodo", attribute=true, inline=true)
-    Map<String, String> prob_precipitacion;
+    @ElementMap(entry="prob_precipitacion", key="periodo", attribute=true, inline=true, required = false)
+    Map<String,String> prob_precipitacion;
 
-    @ElementMap(entry="cota_nieve_prov", key="periodo", attribute=true, inline=true)
+    @ElementMap(entry="cota_nieve_prov", key="periodo", attribute=true, inline=true, required = false)
     Map<String,String> cota_nieve_prov;
 
-    @ElementList (inline = true)
+    @ElementList (inline = true, required = false)
     List<EstadoCielo> estado_cielo;
 
     @Element

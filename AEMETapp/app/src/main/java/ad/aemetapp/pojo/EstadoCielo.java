@@ -14,10 +14,10 @@ public class EstadoCielo {
     @Attribute
     String periodo;
 
-    @Attribute
+    @Attribute (required = false)
     String descripcion;
 
-    @Text
+    @Text (required = false)
     String numImg;
 
     public EstadoCielo() {

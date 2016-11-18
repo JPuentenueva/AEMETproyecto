@@ -41,7 +41,7 @@ import ad.aemetapp.pojo.Provincia;
 import ad.aemetapp.pojo.Provincias;
 import ad.aemetapp.pojo.Raiz;
 
-public class MainActivity extends AppCompatActivity implements IOnClickProvincia, IOnClickMunicipio, IOnClickDia{
+public class MainActivity extends AppCompatActivity implements IOnClickProvincia, IOnClickMunicipio {
     Map<String, Municipios> provincia_municipios;
     List<Municipio> listaCiudades;
     List<Provincia> provincias = new ArrayList<>();
@@ -54,11 +54,6 @@ public class MainActivity extends AppCompatActivity implements IOnClickProvincia
 
         HiloLecturaProvincias thread = new HiloLecturaProvincias();
         thread.execute();
-
-    }
-
-    @Override
-    public void onClickDia(Dia dia) {
 
     }
 
