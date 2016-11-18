@@ -48,6 +48,7 @@
             <TextView
                 android:id="@+id/textViewProb_precip"
                 android:text="%"
+                android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
@@ -75,7 +76,7 @@
                 android:id="@+id/imageViewThermin" />
             <TextView
                 android:id="@+id/textViewThermax"
-                android:textSize="18dp"
+                android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/imageViewThermax"
@@ -87,7 +88,7 @@
                 />
             <TextView
                 android:id="@+id/textViewThermin"
-                android:textSize="18dp"
+                android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/imageViewThermin"

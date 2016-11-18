@@ -56,7 +56,7 @@ public class DiasActivity extends AppCompatActivity implements IOnClickDia {
         if(linearLayoutTablet!=null) { // tablet
             fragmentDetalle.actualizaVistaDetalle(dia);
         } else { // móvil
-            Intent i = new Intent(this, DetalleDiaActivity.class);
+            Intent i = new Intent(this, DetalleDiaScrollingActivity.class);
             i.putExtra("dia",Parcels.wrap(dia));
             startActivity(i);
         }

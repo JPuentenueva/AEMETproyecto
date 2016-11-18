@@ -34,7 +34,6 @@ public class DiasFragment extends Fragment {
     private int mColumnCount = 1;
     private IOnClickDia mListener;
     Raiz datos_municipio;
-    TextView nombreMunicipio;
     List<Dia> lista;
 
     /**
@@ -61,7 +60,7 @@ public class DiasFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
             datos_municipio = Parcels.unwrap(getArguments().getParcelable("datos_municipio"));
-            lista = datos_municipio.getPrediccion().getDias();
+            lista = datos_municipio.getPrediccion().getDia();
         }
     }
 
@@ -69,8 +68,6 @@ public class DiasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dia_list, container, false);
-        nombreMunicipio = (TextView) view.findViewById(R.id.nombreMunicipio);
-        nombreMunicipio.setText(datos_municipio.getNombre());
 
         // Set the adapter
         Context context = view.getContext();
@@ -80,7 +77,7 @@ public class DiasFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        recyclerView.setAdapter(new DiasAdapter(lista, mListener));
+        recyclerView.setAdapter(new DiasAdapter(lista, mListener, context));
         return view;
     }
 

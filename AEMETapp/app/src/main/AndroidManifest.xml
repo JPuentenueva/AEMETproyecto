@@ -18,7 +18,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".DiasActivity" />
-        <activity android:name=".DetalleDiaActivity"></activity>
+        <activity
+            android:name=".DetalleDiaScrollingActivity"
+            android:label="@string/title_activity_detalle_dia_scrolling"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

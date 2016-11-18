@@ -7,6 +7,9 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import org.parceler.Parcels;
 import org.simpleframework.xml.Serializer;
@@ -44,13 +47,17 @@ import ad.aemetapp.pojo.Raiz;
 public class MainActivity extends AppCompatActivity implements IOnClickProvincia, IOnClickMunicipio {
     Map<String, Municipios> provincia_municipios;
     List<Municipio> listaCiudades;
+    String busqueda;
     List<Provincia> provincias = new ArrayList<>();
+    AutoCompleteTextView autoCompleteTextView;
     Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        autoCompleteTextView = (AutoCompleteTextView)findViewById(R.id.busquedaMunicipios);
+        setTitle("Provincias");
 
         HiloLecturaProvincias thread = new HiloLecturaProvincias();
         thread.execute();
@@ -67,6 +74,11 @@ public class MainActivity extends AppCompatActivity implements IOnClickProvincia
     public void onClickMunicipio(Municipio municipio) {
         HiloDiasDeMunicipio thread = new HiloDiasDeMunicipio();
         thread.execute(municipio);
+    }
+
+    public void buscarMunicipio(View view) {
+        HiloBusquedaMunicipios thread = new HiloBusquedaMunicipios();
+        thread.execute(autoCompleteTextView.getText().toString());
     }
 
     class HiloLecturaProvincias extends AsyncTask<Void,Void,Void> {
@@ -140,10 +152,10 @@ public class MainActivity extends AppCompatActivity implements IOnClickProvincia
         }
     }
 
-    class HiloMunicipiosDeProvincia extends AsyncTask<String,Void,Void> {
+    class HiloMunicipiosDeProvincia extends AsyncTask<String,Void,String> {
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected String doInBackground(String... params) {
             String prov = params[0];
             Municipios m = provincia_municipios.get(prov);
 
@@ -154,25 +166,40 @@ public class MainActivity extends AppCompatActivity implements IOnClickProvincia
             bundle.putString("provincia",prov);
             fragment.setArguments(bundle);
 
-            return null;
+            return prov;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(String provincia) {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+            setTitle(provincia);
         }
     }
 
-    class HiloBusquedaMunicipios extends AsyncTask<String,Void,Void> {
+    class HiloBusquedaMunicipios extends AsyncTask<String,Void,Municipios> {
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected Void doInBackground(String... params) {
+        protected Municipios doInBackground(String... params) {
             //Ahora saco la lista de municipios con su código usando Serializer
             Municipios municipios = null;
             Serializer serializer = new Persister();
+            busqueda = params[0];
+            String query = null;
+            String sentenciaCompleta = null;
+            URL url = null;
 
-            try (FileInputStream fis = openFileInput("http://www.salesianos-triana.com/dam/xml/municipios/?ciudad="+params[0])){
+            try {
+                query = URLEncoder.encode(busqueda,"UTF-8");
+                sentenciaCompleta = "http://www.salesianos-triana.com/dam/xml/municipios/?ciudad="+query;
+                url = new URL(sentenciaCompleta);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            try (InputStream fis = url.openStream()){
 
                 municipios = serializer.read(Municipios.class, fis);
 
@@ -184,19 +211,34 @@ public class MainActivity extends AppCompatActivity implements IOnClickProvincia
 
             //TODO comprobar que la lista no es nula, y si lo es, lanzar mensaje de lista vacia
 
-            listaCiudades = municipios.getMunicipios();
+            return municipios;
+        }
 
-            return null;
+        @Override
+        protected void onPostExecute(Municipios municipios) {
+            if (municipios != null){
+                fragment = new MunicipiosFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("municipios",Parcels.wrap(municipios));
+                fragment.setArguments(bundle);
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                setTitle("Búsqueda de "+"'"+busqueda+"'");
+            } else {
+                Toast.makeText(MainActivity.this, "No hay resultados de '"+busqueda+"'", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    private class HiloDiasDeMunicipio extends AsyncTask<Municipio,Void,Void> {
+    private class HiloDiasDeMunicipio extends AsyncTask<Municipio,Void,Raiz> {
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        protected Void doInBackground(Municipio... params) {
+        protected Raiz doInBackground(Municipio... params) {
             Municipio currentMun = params[0];
             Raiz datos_municipio = null;
+            String sentenciaCompleta = null;
             Serializer serializer = new Persister();
             String query = null;
             URL url = null;
@@ -204,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements IOnClickProvincia
             //Crea la sentencia en un URL
             try {
                 query = URLEncoder.encode(currentMun.getNombre(),"UTF-8");
-                String sentenciaCompleta = "http://www.salesianos-triana.com/dam/xml/municipios/?exacta=1&ciudad="+query;
+                sentenciaCompleta = "http://www.salesianos-triana.com/dam/xml/municipios/?exacta=1&ciudad="+query;
                 url = new URL(sentenciaCompleta);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -223,15 +265,22 @@ public class MainActivity extends AppCompatActivity implements IOnClickProvincia
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
+            }
 
+            //Preparo la sentencia de pedida de datos a AEMET
+            Serializer serializer2 = new Persister();
+            URL url2 = null;
+            try {
+                query = currentMun.getCpro()+currentMun.getCmun();
+                sentenciaCompleta = "http://www.aemet.es/xml/municipios/localidad_"+query+".xml";
+                url2 = new URL(sentenciaCompleta);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
             }
 
             //Obtiene los datos del municipio
-            try (FileInputStream fis = openFileInput("http://www.aemet.es/xml/municipios/localidad_"+currentMun.getCpro()+currentMun.getCmun()+".xml")) {
-
-                datos_municipio = serializer.read(Raiz.class, fis);
-
+            try (InputStream input = url2.openStream()) {
+                datos_municipio = serializer2.read(Raiz.class, input, false);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -240,17 +289,15 @@ public class MainActivity extends AppCompatActivity implements IOnClickProvincia
                 e.printStackTrace();
             }
 
+            return datos_municipio;
+        }
+
+        @Override
+        protected void onPostExecute(Raiz datos_municipio) {
             Intent i = new Intent(MainActivity.this, DiasActivity.class);
             i.putExtra("datos_municipio", Parcels.wrap(datos_municipio));
 
             startActivity(i);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         }
     }
 }

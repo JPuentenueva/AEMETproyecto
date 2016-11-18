@@ -49,7 +49,7 @@ public class DetalleDiaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        viewLocal = inflater.inflate(R.layout.fragment_detalle_dia, container, false);
+        viewLocal = inflater.inflate(R.layout.content_detalle_dia, container, false);
 
         diaActual = Parcels.unwrap(getArguments().getParcelable("datos_municipio"));
 
@@ -101,9 +101,9 @@ public class DetalleDiaFragment extends Fragment {
         }
 
         //Seteo de fecha
-        Calendar fechaActual = Calendar.getInstance();
-        fechaActual.setTime(dia.getFecha());
-        fecha.setText(fechaActual.DAY_OF_MONTH + "/" + fechaActual.MONTH + "/" + fechaActual.YEAR);
+        /*Calendar fechaActual = Calendar.getInstance();
+        fechaActual.setTime();*/
+        fecha.setText(dia.getFecha());
 
         //Seteo de temperaturas y sensacion térmica
         tempMaxima.setText(dia.getTemperatura().getMaxima()+"º");

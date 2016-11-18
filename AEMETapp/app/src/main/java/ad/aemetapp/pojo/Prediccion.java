@@ -12,7 +12,7 @@ import java.util.List;
 @Parcel
 @Root (strict = false)
 public class Prediccion {
-    @ElementList
+    @ElementList (inline = true)
     List<Dia> dia;
 
     public Prediccion() {
@@ -22,7 +22,7 @@ public class Prediccion {
         this.dia = dia;
     }
 
-    public List<Dia> getDias() {
+    public List<Dia> getDia() {
         return dia;
     }
 

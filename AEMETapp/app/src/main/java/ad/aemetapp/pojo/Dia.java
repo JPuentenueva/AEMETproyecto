@@ -7,7 +7,6 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.ElementMap;
 import org.simpleframework.xml.Root;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,28 +16,28 @@ import java.util.Map;
 @Parcel
 @Root (strict = false)
 public class Dia {
-    @Attribute
-    Date fecha;
+    @Attribute (name = "fecha", required = false)
+    String fecha;
 
-    @ElementMap(entry="prob_precipitacion", key="periodo", attribute=true, inline=true, required = false)
+    @ElementMap (entry="prob_precipitacion", key="periodo", attribute=true, inline=true, required = false)
     Map<String,String> prob_precipitacion;
 
-    @ElementMap(entry="cota_nieve_prov", key="periodo", attribute=true, inline=true, required = false)
+    @ElementMap (entry="cota_nieve_prov", key="periodo", attribute=true, inline=true, required = false)
     Map<String,String> cota_nieve_prov;
 
     @ElementList (inline = true, required = false)
     List<EstadoCielo> estado_cielo;
 
-    @Element
+    @Element (required = false)
     Temperatura temperatura;
 
-    @Element
+    @Element (required = false)
     SensacionTermica sens_termica;
 
     public Dia() {
     }
 
-    public Dia(Date fecha, Map<String, String> prob_precipitacion, Map<String, String> cota_nieve_prov, List<EstadoCielo> estado_cielo, Temperatura temperatura, SensacionTermica sens_termica) {
+    public Dia(String fecha, Map<String, String> prob_precipitacion, Map<String, String> cota_nieve_prov, List<EstadoCielo> estado_cielo, Temperatura temperatura, SensacionTermica sens_termica) {
         this.fecha = fecha;
         this.prob_precipitacion = prob_precipitacion;
         this.cota_nieve_prov = cota_nieve_prov;
@@ -47,11 +46,11 @@ public class Dia {
         this.sens_termica = sens_termica;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

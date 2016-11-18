@@ -58,7 +58,11 @@ public class MunicipiosFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
             Municipios listaMunicipios = Parcels.unwrap(getArguments().getParcelable("municipios"));
-            provincia = new Provincia(getArguments().getString("provincia"), listaMunicipios);
+            if(getArguments().getString("provincia") == null){
+                provincia = new Provincia("Búsqueda", listaMunicipios);
+            } else {
+                provincia = new Provincia(getArguments().getString("provincia"), listaMunicipios);
+            }
         }
     }
 

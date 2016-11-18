@@ -9,9 +9,9 @@ import org.simpleframework.xml.Text;
  * Created by Jose on 13/11/2016.
  */
 @Parcel
-@Root (strict = false)
+@Root (name = "estado_cielo", strict = false)
 public class EstadoCielo {
-    @Attribute
+    @Attribute (required = false)
     String periodo;
 
     @Attribute (required = false)
